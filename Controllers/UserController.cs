@@ -20,7 +20,7 @@ namespace Happy5ChatTest.Controllers
         {
             _registrationHandler = RegistrationHandler ?? throw new ArgumentNullException(nameof(RegistrationHandler));
         }
-        [HttpPost]
+        [HttpPost("/register/")]
         public IActionResult Post([FromBody]RegistrationDTO model)
         {
             var response = _registrationHandler.HandleRegistration(model.Username, model.Password);
