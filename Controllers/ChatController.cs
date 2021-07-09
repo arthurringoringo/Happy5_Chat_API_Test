@@ -13,7 +13,7 @@ namespace Happy5ChatTest.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    
     public class ChatController : ControllerBase
     {
         private readonly APIDbContext _context;
@@ -23,7 +23,7 @@ namespace Happy5ChatTest.Controllers
             _context = Context ?? throw new ArgumentNullException(nameof(Context));
         }
 
-        [HttpPost("send/{username}")]
+        [HttpPost("chat/send/{username}")]
         public IActionResult createChat(string username,[FromBody] MessageDTO message)
         {
             var senderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -32,6 +32,10 @@ namespace Happy5ChatTest.Controllers
             if (recieverId == null)
             {
                 return NotFound("Reciever not found");
+            }
+            if (senderId.Equals(recieverId.userId))
+            {
+                return Ok("Sending to your own user is not allowed");
             }
             var groupId = _context.Groups.Where(x => x.users.Contains(senderId) && x.users.Contains(recieverId.userId.ToString())).FirstOrDefault();
             if (groupId == null)
@@ -85,6 +89,37 @@ namespace Happy5ChatTest.Controllers
                 }
             }
             return Ok("Message Sent");
+        }
+        [HttpGet("active/conversation/")]
+        public IActionResult showConvo()
+        {
+            var senderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
+            var activeGroups = _context.Groups.Include(x => x.messages).Where(x => x.users.Contains(senderId));
+
+            List<ActiveConversationDTO> activeConvo = new List<ActiveConversationDTO>();
+
+            foreach (var group in activeGroups)
+            {
+                var reciverId = group.users.Split(",");
+                if (reciverId[0] == senderId)
+                {
+                    reciverId[0] = reciverId[1];
+                }
+                ActiveConversationDTO temp = new ActiveConversationDTO();
+                Message lastMessage = group.messages.OrderByDescending(x => x.timeSent).FirstOrDefault();
+                temp.lastMessage.message = lastMessage.message;
+                temp.lastMessage.timesent = lastMessage.timeSent.ToString("dddd, dd MMMM yyyy HH:mm");
+                temp.lastMessage.messageSender = _context.Users.Where(x => x.userId == lastMessage.senderId).FirstOrDefault().userName;
+                temp.groupId = group.groupId;
+                temp.receiver = _context.Users.Where(x => x.userId.Equals(Guid.Parse(reciverId[0]))).FirstOrDefault().userName;
+                temp.unreadMessages = group.messages.Where(x => x.seen == false).Count();
+                
+                activeConvo.Add(temp);
+
+            }
+
+            return Ok(activeConvo);
         }
     }
 }

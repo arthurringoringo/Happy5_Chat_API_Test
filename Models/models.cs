@@ -12,6 +12,25 @@ namespace Happy5ChatTest.Models
         public string message { get; set; }
     }
 
+    public class ActiveConversationDTO
+    {
+        public ActiveConversationDTO()
+        {
+            lastMessage = new LastMessage(); 
+        }
+        public Guid groupId { get; set; }
+        public string receiver { get; set; }
+        public int unreadMessages { get; set; }
+
+        public LastMessage lastMessage { get; set; }
+    }
+
+    public class LastMessage
+    {
+        public string messageSender { get; set; }
+        public string message { get; set; }
+        public string timesent { get; set; }
+    }
 
     public class RegistrationDTO
     {
