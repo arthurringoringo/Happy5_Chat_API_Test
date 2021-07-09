@@ -48,7 +48,8 @@ namespace Happy5ChatTest.Authentication
             }
 
             var claims = new[] {
-                new Claim(ClaimTypes.Name,username)
+                new Claim(ClaimTypes.Name,username),
+                new Claim(ClaimTypes.NameIdentifier,_userService.GetUserId(username))
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);

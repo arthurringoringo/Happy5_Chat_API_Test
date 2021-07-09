@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Happy5ChatTest.Models;
 using Happy5ChatTest.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Happy5ChatTest.Controllers
 {
-    
+    [AllowAnonymous]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase

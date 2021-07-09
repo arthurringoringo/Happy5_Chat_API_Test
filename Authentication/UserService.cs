@@ -59,11 +59,21 @@ namespace Happy5ChatTest.Authentication
                 return false;
             }
         }
+
+        public string GetUserId(string username)
+        {
+            var user = _context.Users.Where(x => x.userName == username).FirstOrDefault();
+
+            return user.userId.ToString();
+        }
     }
 
     public interface IUserService
     {
         bool ValidateUser(string username, string password);
         bool RegisterUser(string username, string password);
+        public string GetUserId(string username);
+
+
     }
 }
