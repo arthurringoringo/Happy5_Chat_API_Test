@@ -6,32 +6,45 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Happy5ChatTest.Models
 {
-    public class MessageDTO
+    //Sending Message Data Transfer object
+    public class SendMessageDTO
     {
 
         public string message { get; set; }
     }
-
+    // Data Transfer object for listing active convesation
     public class ActiveConversationDTO
     {
+        //Each conversation contains Latest message with message Data Object
         public ActiveConversationDTO()
         {
-            lastMessage = new LastMessage(); 
+            latestMessage = new MessageDTO();
         }
         public Guid groupId { get; set; }
         public string receiver { get; set; }
         public int unreadMessages { get; set; }
 
-        public LastMessage lastMessage { get; set; }
+        public MessageDTO latestMessage { get; set; }
     }
-
-    public class LastMessage
+    //Data Transfer Object for specific Conversation
+    public class ConversationDTO
+    {
+        public ConversationDTO()
+        {
+            messages = new List<MessageDTO>();
+        }
+        public Guid conversationId  { get; set; }
+        public string reciever { get; set; }
+        public List<MessageDTO> messages{ get; set; }
+    }
+    //Data Transfer object for messages
+    public class MessageDTO
     {
         public string messageSender { get; set; }
         public string message { get; set; }
         public string timesent { get; set; }
     }
-
+    //Data Transfer Object for Registration
     public class RegistrationDTO
     {
         [Required]

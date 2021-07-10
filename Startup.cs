@@ -16,11 +16,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication;
 using Happy5ChatTest.Authentication;
+using Newtonsoft.Json.Serialization;
 
 namespace Happy5ChatTest
 {
     public class Startup
     {
+        private const string AllowOrigins = "*";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +33,17 @@ namespace Happy5ChatTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+ 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowOrigins,
+                builder =>
+                {
+                    builder.WithOrigins(AllowOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -80,6 +93,8 @@ namespace Happy5ChatTest
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthHandler, BasicAuthenticationHandler>();
 
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +109,7 @@ namespace Happy5ChatTest
             app.UpdateDatabase();
 
             app.UseHttpsRedirection();
-
+            app.UseCors(AllowOrigins);
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
