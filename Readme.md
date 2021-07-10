@@ -44,7 +44,9 @@ To run this application follow the steps below:
 ### Users Features
 
 ***User Registration***
+
 In order to use the application you must register a username and password to the API.
+
 **POST Request Route**
  > https://localhost:5001/register
  
@@ -61,7 +63,9 @@ User Registered
 ```
 
 ***Get Available Username***
+
 To send a message you need to know your friend's username, similar to whatsapp adding contacts. To get all the available username do the following request.
+
 **GET Request Route**
 >https://localhost:5001/users
 
@@ -76,6 +80,7 @@ To send a message you need to know your friend's username, similar to whatsapp a
 ----
 ### Messaging Features
 ***Authorization***
+
 All  messaging features required an authorization header bearer. To do this on 
 Postman follow the following steps.
 
@@ -83,6 +88,7 @@ On Authorization tab change the Type to BasicAuth and insert your Username and P
 ![Imgur](https://i.imgur.com/2yFePxg.png)
 
 ***Sending and Replying to a conversation***
+
 To start a conversation simply do a POST request to the given route.
 The API will know weather if you already had a conversation with the given username.
 If there are no conversation, the API will make a new conversation, hence if there are an existing conversation the API will continue on that conversation.
@@ -99,7 +105,9 @@ Message Sent
 ```
 
 ***Get Active Conversations***
+
 To get all active convesation that the user have and its unread messages count with latest message shown.
+
 **GET Request Route**
 >https://localhost:5001/active/conversation/
 
@@ -130,7 +138,9 @@ To get all active convesation that the user have and its unread messages count w
 ```
 
 ***Get Messages in a Conversation***
+
 To get all messages in a specific conversation that the user have.
+
 **GET Request Route**
 >https://localhost:5001/active/conversation/{ReciverUsername}
 
