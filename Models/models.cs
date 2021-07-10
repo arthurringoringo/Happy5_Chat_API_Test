@@ -6,6 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Happy5ChatTest.Models
 {
+    //Get list of users Data TransferObjects
+    public class UsersListDTO
+    {
+        public string username { get; set; }
+    }
     //Sending Message Data Transfer object
     public class SendMessageDTO
     {

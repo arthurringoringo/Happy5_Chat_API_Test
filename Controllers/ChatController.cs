@@ -158,12 +158,8 @@ namespace Happy5ChatTest.Controllers
                 convo.messages.Add(temp);
             }
 
-            var json = JsonConvert.SerializeObject(convo, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
-            return Ok(json);
+
+            return Ok(convo);
         }
 
     }
