@@ -14,7 +14,7 @@ namespace Happy5ChatTest.Models
     //Sending Message Data Transfer object
     public class SendMessageDTO
     {
-
+        [Required]
         public string message { get; set; }
     }
     // Data Transfer object for listing active convesation
